@@ -1,4 +1,10 @@
-import {setTodolistsAC, TodolistDomainType, todolistsReducer} from "./todolists-reducer";
+import {
+    addTodolistAC,
+    removeTodolistAC,
+    setTodolistsAC,
+    TodolistDomainType,
+    todolistsReducer
+} from "./todolists-reducer";
 import {v1} from "uuid";
 
 let todolistId1: string;
@@ -21,4 +27,22 @@ test("Should receive todolists", () => {
 
     expect(endState.length).toBe(2);
     expect(endState[1].title).toBe("What to buy");
+})
+
+test("Right todolist should be removed", () => {
+    const action = removeTodolistAC(todolistId1);
+
+    const endState = todolistsReducer(startState, action);
+
+    expect(endState.length).toBe(1);
+    expect(endState[0].title).toBe("What to buy");
+})
+
+test("New todolist should be added", () => {
+    const action = addTodolistAC({addedDate: "", order: 1, title: "New todo", id: "11324"});
+
+    const endState = todolistsReducer(startState, action);
+
+    expect(endState.length).toBe(3);
+    expect(endState[0].title).toBe("New todo");
 })
