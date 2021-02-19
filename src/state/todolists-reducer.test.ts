@@ -1,5 +1,5 @@
 import {
-    addTodolistAC,
+    addTodolistAC, changeTodolistTitleAC,
     removeTodolistAC,
     setTodolistsAC,
     TodolistDomainType,
@@ -45,4 +45,13 @@ test("New todolist should be added", () => {
 
     expect(endState.length).toBe(3);
     expect(endState[0].title).toBe("New todo");
+})
+
+test("Correct todolist should change it's title", () => {
+    const action = changeTodolistTitleAC(todolistId2, "Lorem");
+
+    const endState = todolistsReducer(startState, action);
+
+    expect(endState[1].title).toBe("Lorem");
+    expect(endState[0].title).toBe("What to learn");
 })

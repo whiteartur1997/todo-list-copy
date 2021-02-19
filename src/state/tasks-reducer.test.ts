@@ -1,7 +1,13 @@
 import {setTodolistsAC} from "./todolists-reducer";
 import {TasksStateType} from "../App";
 import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
-import {addTaskAC, removeTaskAC, setTasksAC, tasksReducer} from "./tasks-reducer";
+import {
+    addTaskAC,
+    updateTaskAC,
+    removeTaskAC,
+    setTasksAC,
+    tasksReducer
+} from "./tasks-reducer";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -76,4 +82,24 @@ test("Correct task should be removed", () => {
 
     expect(endState["todolistId2"].length).toBe(2);
     expect(endState["todolistId1"].length).toBe(3);
+})
+
+test("Correct task should change it's title", () => {
+    const action = updateTaskAC("2", {title: "React"}, "todolistId1");
+
+    const endState = tasksReducer(startState, action);
+
+    expect(endState["todolistId1"][1].title).toBe("React");
+    expect(endState["todolistId2"][1].title).toBe("milk");
+    expect(endState["todolistId1"].length).toEqual(endState["todolistId2"].length)
+})
+
+test("Correct task should change it's status", () => {
+    const action = updateTaskAC("311tt", {status: TaskStatuses.Completed}, "todolistId2");
+
+    const endState = tasksReducer(startState, action);
+
+    expect(endState["todolistId2"][1].status).toBe(2);
+    expect(endState["todolistId2"][0].status).toBe(1);
+    expect(endState["todolistId2"][2].status).toBe(1);
 })
