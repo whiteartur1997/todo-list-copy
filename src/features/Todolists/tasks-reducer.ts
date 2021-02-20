@@ -1,7 +1,6 @@
 import {Dispatch} from 'redux';
-import {TaskType, todolistsAPI, UpdateTaskModelType} from '../api/todolists-api';
-import {TasksStateType} from '../App';
-import {AppRootStateType} from './store';
+import {TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api';
+import {AppRootStateType} from '../../app/store';
 import {addTodolistAC, removeTodolistAC, setTodolistsAC} from './todolists-reducer';
 
 // types
@@ -19,6 +18,9 @@ type UpdateDomainTaskModelType = {
     priority?: number
     startDate?: string
     deadline?: string
+}
+export type TasksStateType = {
+    [key: string]: Array<TaskType>
 }
 
 

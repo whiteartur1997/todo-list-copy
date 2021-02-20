@@ -1,12 +1,12 @@
 import {setTodolistsAC} from "./todolists-reducer";
-import {TasksStateType} from "../App";
-import {TaskPriorities, TaskStatuses} from "../api/todolists-api";
+import {TaskPriorities, TaskStatuses} from "../../api/todolists-api";
 import {
     addTaskAC,
     updateTaskAC,
     removeTaskAC,
     setTasksAC,
-    tasksReducer
+    tasksReducer,
+    TasksStateType
 } from "./tasks-reducer";
 
 let todolistId1: string;

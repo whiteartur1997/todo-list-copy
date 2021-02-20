@@ -2,12 +2,12 @@ import { Button, IconButton } from '@material-ui/core'
 import { Delete } from '@material-ui/icons'
 import React, { useCallback, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { AddItemForm } from './AddItemForm'
-import { TaskStatuses, TaskType } from './api/todolists-api'
-import { EditableSpan } from './EditableSpan'
-import { getTasksTC } from './state/tasks-reducer'
-import { FilterValuesType } from './state/todolists-reducer'
-import { Task } from './Task'
+import { AddItemForm } from '../../../components/AddItemForm/AddItemForm'
+import { TaskStatuses, TaskType } from '../../../api/todolists-api'
+import { EditableSpan } from '../../../components/EditableSpan/EditableSpan'
+import { getTasksTC } from '../tasks-reducer'
+import { FilterValuesType } from '../todolists-reducer'
+import { Task } from '../../../components/Task/Task'
 
 type PropsType = {
     id: string
