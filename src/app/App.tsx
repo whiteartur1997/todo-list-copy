@@ -1,11 +1,17 @@
-import { AppBar, Button, Container, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import React from 'react';
-import { TaskType } from '../api/todolists-api';
-import './App.css';
+import { useSelector } from 'react-redux';
+import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar';
 import { TodolistLists } from '../features/Todolists/TodolistLists';
+import { RequestStatusType } from './app-reducer';
+import './App.css';
+import { AppRootStateType } from './store';
 
-function App() {   
+function App() {
+
+    const appStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status);
+
     return (
         <div className="App">
             <AppBar position="static">
@@ -19,9 +25,11 @@ function App() {
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
+            {appStatus === "loading" && <LinearProgress color="secondary" />}
             <Container fixed>
                 <TodolistLists />
             </Container>
+            <ErrorSnackbar />
         </div>
     );
 }

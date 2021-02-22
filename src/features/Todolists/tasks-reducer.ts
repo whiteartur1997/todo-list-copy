@@ -1,7 +1,8 @@
-import {Dispatch} from 'redux';
-import {TaskType, todolistsAPI, UpdateTaskModelType} from '../../api/todolists-api';
-import {AppRootStateType} from '../../app/store';
-import {addTodolistAC, removeTodolistAC, setTodolistsAC} from './todolists-reducer';
+import { Dispatch } from 'redux';
+import { TaskType, todolistsAPI, UpdateTaskModelType } from '../../api/todolists-api';
+import { setAppStatusAC } from '../../app/app-reducer';
+import { AppRootStateType } from '../../app/store';
+import { addTodolistAC, removeTodolistAC, setTodolistsAC } from './todolists-reducer';
 
 // types
 type ActionsType = ReturnType<typeof removeTaskAC>
@@ -10,7 +11,8 @@ type ActionsType = ReturnType<typeof removeTaskAC>
     | ReturnType<typeof addTodolistAC>
     | ReturnType<typeof removeTodolistAC>
     | ReturnType<typeof setTodolistsAC>
-    | ReturnType<typeof setTasksAC>;
+    | ReturnType<typeof setTasksAC>
+    | ReturnType<typeof setAppStatusAC>;
 type UpdateDomainTaskModelType = {
     title?: string
     description?: string
@@ -47,23 +49,23 @@ const initialState: TasksStateType = {
 export const tasksReducer = (state: TasksStateType = initialState, action: ActionsType): TasksStateType => {
     switch (action.type) {
         case 'SET-TODOLISTS': {
-            const stateCopy = {...state};
+            const stateCopy = { ...state };
             action.todolists.forEach(tl => {
                 stateCopy[tl.id] = []
             })
             return stateCopy;
         }
-        case 'SET-TASKS':return {...state, [action.todolistId]: action.tasks}
+        case 'SET-TASKS': return { ...state, [action.todolistId]: action.tasks }
         case 'REMOVE-TASK':
-            return {...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId)}
+            return { ...state, [action.todolistId]: state[action.todolistId].filter(t => t.id !== action.taskId) }
         case 'ADD-TASK':
-            return {...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]]}
+            return { ...state, [action.task.todoListId]: [action.task, ...state[action.task.todoListId]] }
         case 'UPDATE-TASK':
-            return {...state, [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? {...t, ...action.model} : t)}
+            return { ...state, [action.todolistId]: state[action.todolistId].map(t => t.id === action.taskId ? { ...t, ...action.model } : t) }
         case 'ADD-TODOLIST':
-            return {...state, [action.todolist.id]: []}
+            return { ...state, [action.todolist.id]: [] }
         case 'REMOVE-TODOLIST': {
-            const copyState = {...state};
+            const copyState = { ...state };
             delete copyState[action.id];
             return copyState;
         }
@@ -78,20 +80,25 @@ export const removeTaskAC = (taskId: string, todolistId: string) => ({
     taskId: taskId,
     todolistId: todolistId
 } as const)
-export const addTaskAC = (task: TaskType) => ({type: 'ADD-TASK', task} as const)
+export const addTaskAC = (task: TaskType) => ({ type: 'ADD-TASK', task } as const)
 export const updateTaskAC = (taskId: string, model: UpdateDomainTaskModelType, todolistId: string) => ({
     type: 'UPDATE-TASK',
     model,
     todolistId,
     taskId
 } as const)
-export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({type: 'SET-TASKS', todolistId, tasks} as const);
+export const setTasksAC = (todolistId: string, tasks: TaskType[]) => ({ type: 'SET-TASKS', todolistId, tasks } as const);
 
 // thunks
 export const getTasksTC = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setAppStatusAC("loading"));
     todolistsAPI.getTasks(todolistId)
         .then(res => {
             dispatch(setTasksAC(todolistId, res.data.items));
+            dispatch(setAppStatusAC("succeeded"));
+        })
+        .catch(() => {
+            dispatch(setAppStatusAC("failed"));
         })
 }
 export const addTaskTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
