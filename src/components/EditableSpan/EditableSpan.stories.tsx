@@ -1,5 +1,5 @@
 import { action } from "@storybook/addon-actions";
-import { Story } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react/types-6-0";
 import { EditableSpan, EditableSpanPropsType } from "./EditableSpan";
 
 export default {
@@ -14,9 +14,9 @@ export default {
             description: "Start value to editable span"
         }
     }
-}
+} as Meta;
 
-export const Template:Story<EditableSpanPropsType> = (args) => {
+export const Template: Story<EditableSpanPropsType> = (args) => {
     return <EditableSpan {...args} />
 }
 

@@ -1,11 +1,11 @@
+import { v1 } from "uuid";
 import {
-    addTodolistAC, changeTodolistTitleAC,
+    addTodolistAC, changeTodolistEntityStatusAC, changeTodolistTitleAC,
     removeTodolistAC,
     setTodolistsAC,
     TodolistDomainType,
     todolistsReducer
 } from "./todolists-reducer";
-import {v1} from "uuid";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -15,8 +15,8 @@ beforeEach(() => {
     todolistId1 = v1();
     todolistId2 = v1();
     startState = [
-        { id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0 },
-        { id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0 },
+        { id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0, entityStatus: "idle" },
+        { id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0, entityStatus: "idle" },
     ]
 })
 
@@ -39,7 +39,7 @@ test("Right todolist should be removed", () => {
 })
 
 test("New todolist should be added", () => {
-    const action = addTodolistAC({addedDate: "", order: 1, title: "New todo", id: "11324"});
+    const action = addTodolistAC({ addedDate: "", order: 1, title: "New todo", id: "11324" });
 
     const endState = todolistsReducer(startState, action);
 
@@ -54,4 +54,13 @@ test("Correct todolist should change it's title", () => {
 
     expect(endState[1].title).toBe("Lorem");
     expect(endState[0].title).toBe("What to learn");
+})
+
+test("Correct todolist should change it's status", () => {
+    const action = changeTodolistEntityStatusAC(todolistId2, "loading");
+
+    const endState = todolistsReducer(startState, action);
+
+    expect(endState[1].entityStatus).toBe("loading");
+    expect(endState[0].entityStatus).toBe("idle");
 })
