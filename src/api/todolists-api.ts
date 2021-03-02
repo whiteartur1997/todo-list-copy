@@ -92,3 +92,9 @@ export const todolistsAPI = {
         return instance.put<ResponseType<TaskType>>(`todo-lists/${todolistId}/tasks/${taskId}`, model);
     }
 }
+
+export const authAPI = {
+    login() {
+        return instance.post<ResponseType<{userId: number}>>(`auth/login`)
+    }
+}

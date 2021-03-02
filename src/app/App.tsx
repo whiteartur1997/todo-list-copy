@@ -2,7 +2,9 @@ import { AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typogra
 import { Menu } from '@material-ui/icons';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Route } from 'react-router-dom';
 import { ErrorSnackbar } from '../components/ErrorSnackbar/ErrorSnackbar';
+import { Login } from '../features/Login/Login';
 import { TodolistLists } from '../features/Todolists/TodolistLists';
 import { RequestStatusType } from './app-reducer';
 import './App.css';
@@ -31,7 +33,8 @@ function App({ demo = false }: PropsType) {
             </AppBar>
             {appStatus === "loading" && <LinearProgress color="secondary" />}
             <Container fixed>
-                <TodolistLists demo={demo} />
+                <Route exact path="/" render={() => <TodolistLists demo={demo} />} />
+                <Route path="/login" render={() => <Login />} />
             </Container>
             <ErrorSnackbar />
         </div>
