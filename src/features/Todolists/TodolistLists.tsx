@@ -1,6 +1,7 @@
 import { Grid, Paper } from '@material-ui/core';
 import React, { useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { TaskStatuses } from '../../api/todolists-api';
 import { AppRootStateType } from '../../app/store';
 import { AddItemForm } from '../../components/AddItemForm/AddItemForm';
@@ -22,12 +23,13 @@ type PropsType = {
 
 export const TodolistLists: React.FC<PropsType> = ({ demo = false }) => {
 
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn);
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists);
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (demo) return;
+        if (demo || !isLoggedIn) return;
         dispatch(getTodolistsTC());
     }, []);
 
@@ -65,6 +67,9 @@ export const TodolistLists: React.FC<PropsType> = ({ demo = false }) => {
     }, [dispatch]);
 
 
+    if (!isLoggedIn) {
+        return <Redirect to="/login" />
+    }
     return (
         <>
             <Grid container style={{ padding: "20px" }}>
