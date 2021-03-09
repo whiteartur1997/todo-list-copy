@@ -16,14 +16,14 @@ let startState: TasksStateType = {};
 beforeEach(() => {
     startState = {
         "todolistId1": [
-            { id: "1", title: "CSS", status: TaskStatuses.New, todoListId: "i89123", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi },
-            { id: "2", title: "HTML", status: TaskStatuses.Completed, todoListId: "i89123", addedDate: "", deadline: "", description: "", order: 1, startDate: "", priority: TaskPriorities.Low },
-            { id: "3", title: "JS", status: TaskStatuses.Draft, todoListId: "i89123", addedDate: "", deadline: "", description: "", order: 2, startDate: "", priority: TaskPriorities.Middle },
+            { id: "1", title: "CSS", status: TaskStatuses.New, todoListId: "i89123", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi, entityStatus: "loading" },
+            { id: "2", title: "HTML", status: TaskStatuses.Completed, todoListId: "i89123", addedDate: "", deadline: "", description: "", order: 1, startDate: "", priority: TaskPriorities.Low, entityStatus: "loading" },
+            { id: "3", title: "JS", status: TaskStatuses.Draft, todoListId: "i89123", addedDate: "", deadline: "", description: "", order: 2, startDate: "", priority: TaskPriorities.Middle, entityStatus: "loading" },
         ],
         "todolistId2": [
-            { id: "356", title: "bread", status: TaskStatuses.InProgress, todoListId: "aa88982q", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi },
-            { id: "311tt", title: "milk", status: TaskStatuses.InProgress, todoListId: "aa88982q", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi },
-            { id: "356ee", title: "bread", status: TaskStatuses.InProgress, todoListId: "aa88982q", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi },
+            { id: "356", title: "bread", status: TaskStatuses.InProgress, todoListId: "aa88982q", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi, entityStatus: "loading" },
+            { id: "311tt", title: "milk", status: TaskStatuses.InProgress, todoListId: "aa88982q", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi, entityStatus: "loading" },
+            { id: "356ee", title: "bread", status: TaskStatuses.InProgress, todoListId: "aa88982q", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi, entityStatus: "loading" },
         ]
     }
 })
@@ -43,8 +43,8 @@ test("correct keys should be created in the object", () => {
 
 test("tasks should be added to right todolistId", () => {
     const action = setTasksAC("tl1", [
-        { id: "7651", title: "Redux", status: TaskStatuses.New, todoListId: "tl1", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi },
-        { id: "7651234", title: "Thunk", status: TaskStatuses.New, todoListId: "tl1", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi },
+        { id: "7651", title: "Redux", status: TaskStatuses.New, todoListId: "tl1", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi, entityStatus: "idle" },
+        { id: "7651234", title: "Thunk", status: TaskStatuses.New, todoListId: "tl1", addedDate: "", deadline: "", description: "", order: 0, startDate: "", priority: TaskPriorities.Hi, entityStatus: "idle" },
     ])
 
     const endState = tasksReducer(startState, action);
@@ -65,7 +65,8 @@ test("Task should be added", () => {
         deadline: "",
         addedDate: "",
         todoListId: "todolistId1",
-        status: TaskStatuses.New
+        status: TaskStatuses.New,
+        entityStatus: "idle"
     })
 
     const endState = tasksReducer(startState, action);

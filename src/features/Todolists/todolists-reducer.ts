@@ -57,24 +57,24 @@ export const setTodolistsAC = (todolists: TodolistType[]) => ({ type: 'SET-TODOL
 
 // thunks
 export const getTodolistsTC = () => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC("loading"));
+    dispatch(setAppStatusAC({status: "loading"}));
     todolistsAPI.getTodolists()
         .then(res => {
             dispatch(setTodolistsAC(res.data));
-            dispatch(setAppStatusAC("succeeded"));
+            dispatch(setAppStatusAC({status: "succeeded"}));
         })
         .catch((err) => {
             handleServerNetworkError(err, dispatch);
         })
 }
 export const deleteTodolistTC = (todolistId: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC("loading"));
+    dispatch(setAppStatusAC({status: "loading"}));
     dispatch(changeTodolistEntityStatusAC(todolistId, "loading"));
     todolistsAPI.deleteTodolist(todolistId)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(removeTodolistAC(todolistId));
-                dispatch(setAppStatusAC("succeeded"));
+                dispatch(setAppStatusAC({status: "succeeded"}));
             } else {
                 handleServerAppError(res.data, dispatch);
             }
@@ -87,12 +87,12 @@ export const deleteTodolistTC = (todolistId: string) => (dispatch: Dispatch<Acti
         })
 }
 export const createTodolistTC = (title: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC("loading"));
+    dispatch(setAppStatusAC({status: "loading"}));
     todolistsAPI.createTodolist(title)
         .then(res => {
             if (res.data.resultCode === 0) {
                 dispatch(addTodolistAC(res.data.data.item));
-                dispatch(setAppStatusAC("succeeded"));
+                dispatch(setAppStatusAC({status: "succeeded"}));
             } else {
                 handleServerAppError(res.data, dispatch);
             }
@@ -102,7 +102,7 @@ export const createTodolistTC = (title: string) => (dispatch: Dispatch<ActionsTy
         })
 }
 export const changeTodolistTitleTC = (todolistId: string, title: string) => (dispatch: Dispatch<ActionsType>) => {
-    dispatch(setAppStatusAC("loading"));
+    dispatch(setAppStatusAC({status: "loading"}));
     dispatch(changeTodolistEntityStatusAC(todolistId, "loading"));
     todolistsAPI.updateTodolist(todolistId, title)
         .then(res => {

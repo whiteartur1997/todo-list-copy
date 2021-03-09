@@ -4,16 +4,16 @@ import { ResponseType } from "./../api/todolists-api";
 
 export function handleServerAppError<D>(data: ResponseType<D>, dispatch: Dispatch<ActionsType>) {
   if (data.messages.length) {
-    dispatch(setAppErrorAC(data.messages[0]));
+    dispatch(setAppErrorAC({error: data.messages[0]}));
   } else {
-    dispatch(setAppErrorAC("Some error occured!"))
+    dispatch(setAppErrorAC({error: "Some error occured!"}))
   }
-  dispatch(setAppStatusAC("failed"));
+  dispatch(setAppStatusAC({status: "failed"}));
 }
 
 export function handleServerNetworkError(error: any, dispatch: Dispatch<ActionsType>) {
-  dispatch(setAppErrorAC(error.message ? error.message : "Some error occured"));
-  dispatch(setAppStatusAC("failed"));
+  dispatch(setAppErrorAC({error: error.message ? error.message : "Some error occured"}));
+  dispatch(setAppStatusAC({status: "failed"}));
 }
 
 type ActionsType = ReturnType<typeof setAppErrorAC> | ReturnType<typeof setAppStatusAC>;
