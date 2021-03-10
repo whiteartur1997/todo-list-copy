@@ -10,6 +10,7 @@ const initialState = {
   isInitialized: false as boolean
 }
 
+// ф-ия create slice создает редюсер автоматически
 const slice = createSlice({
   name: "app",
   initialState: initialState,
@@ -47,4 +48,6 @@ export const initializeApp = () => async (dispatch: Dispatch) => {
 
 // types
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
+export type SetAppErrorActionType = ReturnType<typeof setAppErrorAC>
+export type SetAppStatusActionType = ReturnType<typeof setAppStatusAC>
 export type InitialAppReducerStateType = typeof initialState;

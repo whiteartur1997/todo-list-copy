@@ -21,7 +21,7 @@ beforeEach(() => {
 })
 
 test("Should receive todolists", () => {
-    const action = setTodolistsAC(startState);
+    const action = setTodolistsAC({todolists: startState});
 
     const endState = todolistsReducer([], action);
 
@@ -30,7 +30,7 @@ test("Should receive todolists", () => {
 })
 
 test("Right todolist should be removed", () => {
-    const action = removeTodolistAC(todolistId1);
+    const action = removeTodolistAC({id: todolistId1});
 
     const endState = todolistsReducer(startState, action);
 
@@ -39,7 +39,7 @@ test("Right todolist should be removed", () => {
 })
 
 test("New todolist should be added", () => {
-    const action = addTodolistAC({ addedDate: "", order: 1, title: "New todo", id: "11324" });
+    const action = addTodolistAC({ todolist: {addedDate: "", order: 1, title: "New todo", id: "11324"} });
 
     const endState = todolistsReducer(startState, action);
 
@@ -48,7 +48,7 @@ test("New todolist should be added", () => {
 })
 
 test("Correct todolist should change it's title", () => {
-    const action = changeTodolistTitleAC(todolistId2, "Lorem");
+    const action = changeTodolistTitleAC({id: todolistId2, title: "Lorem"});
 
     const endState = todolistsReducer(startState, action);
 
@@ -57,7 +57,7 @@ test("Correct todolist should change it's title", () => {
 })
 
 test("Correct todolist should change it's status", () => {
-    const action = changeTodolistEntityStatusAC(todolistId2, "loading");
+    const action = changeTodolistEntityStatusAC({id: todolistId2, entityStatus: "loading"});
 
     const endState = todolistsReducer(startState, action);
 
